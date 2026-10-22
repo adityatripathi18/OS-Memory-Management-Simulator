@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MemoryOS® — Memory Management Simulator</title>
+  <meta name="description" content="Explore how operating systems allocate memory through First Fit, Best Fit and Worst Fit algorithms using interactive visual simulations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="#home" class="brand">MemoryOS<span class="reg">&#174;</span></a>
+      </div>
+      <nav class="nav-center" aria-label="Main navigation">
+        <a href="#home" class="nav-link active" id="nav-home">Home</a>
+        <a href="#simulator" class="nav-link" id="nav-simulator">Simulator</a>
+        <a href="#algorithms" class="nav-link" id="nav-algorithms">Algorithms</a>
+        <a href="#about" class="nav-link" id="nav-about">About</a>
+      </nav>
+      <div class="nav-right">
+        <a href="#simulator" class="btn-pill btn-pill-white" id="hero-launch-nav">Launch Simulator</a>
+        <div class="three-dot-wrapper" id="threeDotWrapper">
+          <button class="three-dot-btn" id="threeDotBtn" aria-label="Open menu" aria-expanded="false" aria-haspopup="true">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </button>
+          <div class="three-dot-dropdown" id="threeDotDropdown" role="menu" aria-hidden="true">
+            <div class="dropdown-profile">
+              <div class="profile-avatar">KO</div>
+              <div>
+                <div class="profile-name">Demo User</div>
+                <div class="profile-badge">Local Demo</div>
+              </div>
+            </div>
+            <hr class="dropdown-divider" />
+            <a href="#" class="dropdown-item" role="menuitem" id="menuProfile">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              Profile
+            </a>
+            <a href="#" class="dropdown-item" role="menuitem" id="menuSettings">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              Settings
+            </a>
+            <a href="#algorithms" class="dropdown-item" role="menuitem" id="menuFeatures">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+              Features
+            </a>
+            <hr class="dropdown-divider" />
+            <a href="#" class="dropdown-item dropdown-logout" role="menuitem" id="menuLogout">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Reset Demo Session
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-video-wrap">
+      <video class="hero-video" autoplay muted loop playsinline id="heroVideo">
+        <source src="https://designerstephen.github.io/public-assets/videos/serene-art-hero.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag animate-rise" style="--delay:0s">Operating System Simulator</div>
+      <h1 class="hero-h1 animate-rise" style="--delay:0.2s">Understand Memory.<br />Visualize Every<br /><em>Allocation.</em></h1>
+      <p class="hero-desc animate-rise" style="--delay:0.4s">Explore how operating systems allocate memory through First Fit, Best Fit and Worst Fit algorithms using interactive visual simulations.</p>
+      <div class="hero-actions animate-rise" style="--delay:0.6s">
+        <a href="#simulator" class="btn-pill btn-pill-white" id="heroCTA">Launch Simulator</a>
+        <a href="#algorithms" class="btn-pill btn-pill-ghost">Learn Algorithms</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- SIMULATOR -->
+  <section class="section" id="simulator">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div class="section-tag">Interactive</div>
+        <h2 class="section-h2">Memory Allocation Simulator</h2>
+        <p class="section-desc">Configure memory blocks and processes, select an algorithm, and visualize allocation in real time.</p>
+      </div>
+
+      <div class="sim-card animate-on-scroll">
+        <div class="sim-import-bar">
+          <div class="import-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Import JSON / CSV
+          </div>
+          <div class="import-dropzone" id="importDropzone" tabindex="0" role="button" aria-label="Drop file or click to upload JSON or CSV config">
+            <span id="importDropLabel">Drop file here or <u>click to browse</u></span>
+            <input type="file" id="importFileInput" accept=".json,.csv" style="display:none" aria-hidden="true" />
+          </div>
+          <div id="importError" class="import-error" role="alert" aria-live="polite"></div>
+        </div>
+
+        <div class="sim-grid">
+          <div class="sim-panel">
+            <div class="sim-panel-header">
+              <h3>Memory Blocks</h3>
+              <button class="btn-icon" id="addBlockBtn" aria-label="Add memory block">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <div class="block-list" id="blockList" role="list" aria-label="Memory blocks list"></div>
+          </div>
+
+          <div class="sim-panel">
+            <div class="sim-panel-header">
+              <h3>Processes</h3>
+              <button class="btn-icon" id="addProcessBtn" aria-label="Add process">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <div class="block-list" id="processList" role="list" aria-label="Process list"></div>
+          </div>
+
+          <div class="sim-panel sim-controls-panel">
+            <div class="sim-panel-header">
+              <h3>Controls</h3>
+            </div>
+            <div class="control-group">
+              <label for="algorithmSelect" class="control-label">Algorithm</label>
+              <select id="algorithmSelect" class="control-select">
+                <option value="firstFit">First Fit</option>
+                <option value="bestFit">Best Fit</option>
+                <option value="worstFit">Worst Fit</option>
+                <option value="comparison">Compare All Three</option>
+              </select>
+            </div>
+            <div class="control-btns">
+              <button class="btn-sim btn-run" id="runBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run Simulation
+              </button>
+              <button class="btn-sim btn-reset" id="resetBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                Reset
+              </button>
+              <button class="btn-sim btn-clear" id="clearBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                Clear All
+              </button>
+            </div>
+            <div id="simError" class="sim-error" role="alert" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step Controls -->
+      <div class="step-controls animate-on-scroll" id="stepControls" style="display:none">
+        <div class="step-info" id="stepInfo">Step 0 / 0</div>
+        <div class="step-btns">
+          <button class="step-btn" id="stepPrevBtn" aria-label="Previous step">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="step-btn step-play" id="stepPlayBtn" aria-label="Play simulation">
+            <svg id="stepPlayIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <button class="step-btn" id="stepNextBtn" aria-label="Next step">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="step-detail" id="stepDetail"></div>
+      </div>
+
+      <!-- Visual Memory Map -->
+      <div class="sim-card animate-on-scroll" id="memMapSection" style="display:none">
+        <h3 class="sim-section-title">Memory Map</h3>
+        <div class="mem-map-wrap" id="memMapWrap"></div>
+        <div class="mem-legend">
+          <span class="legend-item"><span class="legend-swatch allocated"></span>Allocated</span>
+          <span class="legend-item"><span class="legend-swatch free"></span>Free</span>
+          <span class="legend-item"><span class="legend-swatch failed"></span>Not Allocated</span>
+        </div>
+      </div>
+
+      <!-- Allocation Table -->
+      <div class="sim-card animate-on-scroll" id="allocTableSection" style="display:none">
+        <h3 class="sim-section-title">Allocation Table</h3>
+        <div class="table-wrap">
+          <table class="alloc-table" id="allocTable" aria-label="Process allocation results">
+            <thead>
+              <tr>
+                <th>Process</th>
+                <th>Size (KB)</th>
+                <th>Block</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="allocTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Results Summary -->
+      <div class="sim-card animate-on-scroll" id="resultsSummary" style="display:none">
+        <h3 class="sim-section-title">Results Summary</h3>
+        <div class="results-grid" id="resultsGrid"></div>
+      </div>
+
+      <!-- Comparison Mode -->
+      <div class="sim-card animate-on-scroll" id="comparisonSection" style="display:none">
+        <h3 class="sim-section-title">Algorithm Comparison</h3>
+        <div class="table-wrap">
+          <table class="alloc-table" id="compTable" aria-label="Algorithm comparison results">
+            <thead>
+              <tr>
+                <th>Algorithm</th>
+                <th>Allocated</th>
+                <th>Failed</th>
+                <th>Free Memory Left (KB)</th>
+              </tr>
+            </thead>
+            <tbody id="compTableBody"></tbody>
+          </table>
+        </div>
+        <div id="compDetails"></div>
+      </div>
+
+      <!-- Execution Log -->
+      <div class="sim-card animate-on-scroll" id="logSection" style="display:none">
+        <h3 class="sim-section-title">Execution Log</h3>
+        <div class="exec-log" id="execLog" aria-live="polite" aria-label="Execution log"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALGORITHMS -->
+  <section class="section section-alt" id="algorithms">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div class="section-tag">Reference</div>
+        <h2 class="section-h2">Allocation Algorithms</h2>
+        <p class="section-desc">Three classic strategies for fitting processes into available memory partitions.</p>
+      </div>
+      <div class="algo-grid animate-on-scroll">
+        <div class="algo-card">
+          <div class="algo-num">01</div>
+          <h3 class="algo-title">First Fit</h3>
+          <p class="algo-desc">Scans memory blocks sequentially from the beginning and selects the <strong>first block</strong> that is large enough to satisfy the process request. Fast and simple; tends to leave large free blocks near the end.</p>
+          <div class="algo-tag">Fastest lookup</div>
+        </div>
+        <div class="algo-card">
+          <div class="algo-num">02</div>
+          <h3 class="algo-title">Best Fit</h3>
+          <p class="algo-desc">Searches all available blocks and selects the <strong>smallest block</strong> that is still large enough for the process. Minimizes wasted space per allocation but may create many small, unusable fragments.</p>
+          <div class="algo-tag">Minimum waste</div>
+        </div>
+        <div class="algo-card">
+          <div class="algo-num">03</div>
+          <h3 class="algo-title">Worst Fit</h3>
+          <p class="algo-desc">Searches all available blocks and selects the <strong>largest available block</strong>. The leftover remainder is maximized, making it more likely that the remaining space can serve future requests.</p>
+          <div class="algo-tag">Largest remainder</div>
+        </div>
+      </div>
+      <div class="algo-model-note animate-on-scroll">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>This simulator uses the <strong>variable-partition model</strong>. Free space remaining after allocation is external free space, not internal fragmentation.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div class="section-tag">About</div>
+        <h2 class="section-h2">About This Project</h2>
+      </div>
+      <div class="about-grid animate-on-scroll">
+        <div class="about-text">
+          <p>MemoryOS&#174; is an educational simulator designed to demystify how operating systems manage memory. Built as part of an OS coursework project, it lets students and curious learners interact with core memory allocation strategies &#8212; no backend, no login, no installation required.</p>
+          <p>The simulator runs entirely in the browser using vanilla HTML, CSS and JavaScript. All state is managed locally, ensuring privacy and offline usability.</p>
+          <h4>Features at a glance</h4>
+          <ul class="feature-list">
+            <li>First Fit, Best Fit and Worst Fit allocation</li>
+            <li>Step-by-step animated visualization</li>
+            <li>Algorithm comparison mode</li>
+            <li>JSON / CSV configuration import</li>
+            <li>Execution log and results summary</li>
+            <li>Fully responsive, zero dependencies</li>
+          </ul>
+        </div>
+        <div class="about-card-col">
+          <div class="about-stat-card">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Algorithms</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="stat-num">8</div>
+            <div class="stat-label">Features</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="stat-num">0</div>
+            <div class="stat-label">Dependencies</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section animate-on-scroll" id="help">
+        <div class="section-tag">Help &amp; Contact</div>
+        <h3 class="help-title">Need Help?</h3>
+        <div class="help-grid">
+          <div class="help-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <h4>Getting Started</h4>
+            <p>The simulator loads with demo data. Simply click <strong>Run Simulation</strong> to see an instant result. Modify blocks and processes using the + / &#215; controls, then re-run.</p>
+          </div>
+          <div class="help-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <h4>File Import Format</h4>
+            <p><strong>JSON:</strong> <code>{"blocks":[100,200],"processes":[50,80]}</code><br /><strong>CSV:</strong> Row 1 = block sizes, Row 2 = process sizes, comma-separated.</p>
+          </div>
+          <div class="help-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <h4>Contact &amp; Feedback</h4>
+            <p>This is a local educational demo project. For feedback or contributions, please reach out through your course instructor or submit a pull request if the source is hosted on a repository.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">MemoryOS<span class="reg">&#174;</span></div>
+      <div class="footer-links">
+        <a href="#home" class="footer-link">Home</a>
+        <a href="#simulator" class="footer-link">Simulator</a>
+        <a href="#algorithms" class="footer-link">Algorithms</a>
+        <a href="#about" class="footer-link">About</a>
+      </div>
+      <div class="footer-copy">&#169; 2025 MemoryOS. Educational project. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" style="display:none">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="settingsTitle">Settings</h3>
+        <button class="modal-close" id="settingsClose" aria-label="Close settings">&#215;</button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-row">
+          <label class="setting-label">Auto-play speed</label>
+          <select class="control-select" id="playSpeedSelect">
+            <option value="600">Fast (0.6s)</option>
+            <option value="1000" selected>Normal (1s)</option>
+            <option value="1800">Slow (1.8s)</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <label class="setting-label">Highlight active step</label>
+          <label class="toggle-label">
+            <input type="checkbox" id="highlightToggle" checked />
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <label class="setting-label">Show execution log</label>
+          <label class="toggle-label">
+            <input type="checkbox" id="showLogToggle" checked />
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div class="modal-overlay" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileTitle" style="display:none">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="profileTitle">Profile</h3>
+        <button class="modal-close" id="profileClose" aria-label="Close profile">&#215;</button>
+      </div>
+      <div class="modal-body profile-modal-body">
+        <div class="profile-avatar-lg">KO</div>
+        <div class="profile-name-lg">Demo User</div>
+        <div class="profile-badge" style="margin:8px auto 0;display:inline-block">Local Demo &#8212; No login required</div>
+        <p style="margin-top:16px;color:var(--slate-400);font-size:14px;text-align:center">This project runs entirely in your browser. No personal data is collected or stored.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
